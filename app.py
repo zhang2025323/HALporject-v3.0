@@ -257,6 +257,12 @@ if uploaded_files:
         if file_key not in st.session_state.detection_cache:
             # 执行检测
             image = Image.open(uploaded_file).convert("RGB")
+            # 压缩图片到最大640像素
+            max_size = 640
+            if max(image.width, image.height) > max_size:
+                ratio = max_size / max(image.width, image.height)
+                new_size = (int(image.width * ratio), int(image.height * ratio))
+                image = image.resize(new_size, Image.LANCZOS)
             img_np = np.array(image)
             start_time = time.time()
             with st.spinner(f"检测中 ({file_key})..."):
