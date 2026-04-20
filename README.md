@@ -19,7 +19,40 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-## 部署到 Streamlit Community Cloud（推荐）
+## 部署到 Hugging Face Spaces（推荐 ⭐）
+
+配置更高，支持免费 GPU！
+
+### 步骤：
+
+1. **访问 Hugging Face Spaces**
+   - 打开 https://huggingface.co/spaces
+   - 注册/登录账号
+
+2. **创建新 Space**
+   - 点击 "Create new Space"
+   - 输入 Space 名称（如 `HAL-Project`）
+   - **SDK**: 选择 `Streamlit`
+   - 选择 "Public" 或 "Private"
+   - 点击 "Create Space"
+
+3. **从 GitHub 同步**
+   - 进入 Space 的 Settings
+   - 找到 "Git repository" 或 "Github" 同步选项
+   - 连接你的 GitHub 仓库 `https://github.com/zhang2025323/HALporject`
+
+4. **启用 GPU（可选，推荐）**
+   - 进入 Settings → Hardware
+   - 选择 `T4`（免费 GPU，有时间限制）
+   - 点击 "Upgrade"（不需要付费）
+
+5. **完成！**
+   - 等待 2-5 分钟部署
+   - 访问你的 Space 地址：`https://huggingface.co/spaces/你的用户名/你的Space名`
+
+---
+
+## 部署到 Streamlit Community Cloud
 
 ### 步骤：
 
