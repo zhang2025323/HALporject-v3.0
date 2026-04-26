@@ -4,7 +4,7 @@ from ultralytics.nn.tasks import DetectionModel
 import cv2
 import numpy as np
 
-# ✅ 关键修复：解决 PyTorch 安全报错（必须加）
+# 关键：PyTorch 安全白名单（新版本依然需要）
 torch.serialization.add_safe_globals([DetectionModel])
 
 class Detector:
