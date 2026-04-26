@@ -1,7 +1,11 @@
-# utils/model_loader.py
+import torch
 from ultralytics import YOLO
+from ultralytics.nn.tasks import DetectionModel
 import cv2
 import numpy as np
+
+# ✅ 关键修复：解决 PyTorch 安全报错（必须加）
+torch.serialization.add_safe_globals([DetectionModel])
 
 class Detector:
     def __init__(self, scratch_path, missing_path,
