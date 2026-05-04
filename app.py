@@ -546,41 +546,58 @@ function extractFileName(btn) {
 
 function performCompleteDeletion(fileName) {
     console.log('[DELETE] Starting complete deletion for:', fileName);
-    
+
     var deletedCount = 0;
-    
+    var removedElements = new Set();
+
     document.querySelectorAll('div, section').forEach(function(el) {
         var text = el.textContent || '';
         if ((text.indexOf(fileName) !== -1) &&
             (text.indexOf('KB') !== -1 || text.indexOf('MB') !== -1 || el.querySelector('button'))) {
-            
+
             if (!el.querySelector('img') && el.children.length <= 5) {
                 try {
-                    el.style.display = 'none';
-                    el.remove();
-                    deletedCount++;
-                    console.log('[DELETE] Removed file list item');
-                } catch(err) {}
+                    if (el.parentNode && !removedElements.has(el) && document.body.contains(el)) {
+                        el.style.display = 'none';
+                        removedElements.add(el);
+                        el.parentNode.removeChild(el);
+                        deletedCount++;
+                        console.log('[DELETE] Removed file list item');
+                    }
+                } catch(err) {
+                    console.warn('[DELETE] Error removing element:', err.message);
+                }
             }
         }
     });
-    
+
     document.querySelectorAll('div[class*="card"], div[data-testid], section').forEach(function(el) {
         var text = el.textContent || '';
         if (text.indexOf(fileName) !== -1 && el.querySelector('img')) {
             try {
-                el.style.display = 'none';
-                setTimeout(function() {
-                    try { el.remove(); } catch(e) {}
-                }, 100);
-                deletedCount++;
-                console.log('[DELETE] Removed result card');
-            } catch(err) {}
+                if (el.parentNode && !removedElements.has(el) && document.body.contains(el)) {
+                    el.style.display = 'none';
+                    removedElements.add(el);
+                    setTimeout(function() {
+                        try {
+                            if (el.parentNode) {
+                                el.parentNode.removeChild(el);
+                            }
+                        } catch(e) {
+                            console.warn('[DELETE] Delayed remove error:', e.message);
+                        }
+                    }, 100);
+                    deletedCount++;
+                    console.log('[DELETE] Removed result card');
+                }
+            } catch(err) {
+                console.warn('[DELETE] Error removing card:', err.message);
+            }
         }
     });
-    
+
     console.log('[DELETE] Complete! Removed ' + deletedCount + ' elements');
-    
+
     showDeleteFeedback(fileName);
 }
 
